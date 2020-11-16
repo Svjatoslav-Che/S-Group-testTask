@@ -1,0 +1,30 @@
+<div>Bash</div>
+
+<div *ngIf="formsData">
+
+
+    <div *ngFor="let form of formsData.data" class="form_container" >
+
+        <div class="form_data">Form ID: <span>{{form.id}}</span></div>
+        <div *ngFor="let field of form.form_field_values" class="form_field_rules">
+            <div class="form_field"> {{field.value}} </div>
+        </div>
+
+        <div class="form_data">
+            Created: <span>{{form.created_at | date:'dd.MM.yyyy'}}</span>
+            at: <span>{{form.created_at | date:'hh:mm'}}</span>
+        </div>
+        <div class="form_data">
+            Updated: <span>{{form.updated_at | date:'dd.MM.yyyy'}}</span>
+            at: <span>{{form.updated_at | date:'hh:mm'}}</span>
+        </div>
+        <div class="form_data">
+            User ID: <span>{{form.user_id}}</span>
+        </div>
+<!--        <button>Edit form</button>-->
+<!--        <button>Delete form</button>-->
+    </div>
+
+
+</div>
+

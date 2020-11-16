@@ -1,0 +1,58 @@
+.auth_input_form {
+  font-size: 10px;
+
+  input {
+    font-size: 10px;
+  }
+
+  span {
+    font-size: 8px;
+    color: #363636;
+  }
+}
+
+.auth_pannel {
+  font-size: 10px;
+
+  button {
+    font-size: 10px;
+    cursor: pointer;
+  }
+}
+
+.button_disabled {
+  opacity: 0.2;
+}
+
+.button_enabled {
+  opacity: 1;
+}
+
+.auth_box {
+  font-size: 10px;
+  width: 278px;
+  height: 104px;
+  background: #e5ffe2;
+  border-radius: 5px;
+  position: relative;
+  margin-top: 8px;
+  margin-left: auto;
+  margin-right: 8px;
+
+  .position_fields {
+    text-align: right;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+
+    span {
+      color: #008000;
+    }
+  }
+
+  .position_buttons {
+    position: absolute;
+    top: 68px;
+    right: 16px;
+  }
+}

@@ -1,0 +1,63 @@
+<div class="auth_box">
+    <div *ngIf="!globalService.loggedIn" class="position_fields">
+        <div class="auth_input_form">
+            E-mail:
+            <input type="email" (keyup)="onInputEmail($event)">
+        </div>
+
+        <div class="auth_input_form">
+            Pass:
+            <input type="text" (keyup)="onInputPassword($event)">
+        </div>
+    </div>
+
+    <div *ngIf="!globalService.loggedIn; else logoutBlock" class="position_buttons">
+        <div class="auth_pannel">
+            <button [ngClass]="{'button_enabled': emailValidate && passwordValidate}"
+                    class="button_disabled"
+                    (click)="loginByVal()" id="submitInputData">Login by entering values</button>
+            or
+            <button (click)="loginAuto()">Login by auto values</button>
+        </div>
+    </div>
+</div>
+
+<!--<div *ngIf="!globalService.loggedIn; else logoutBlock">-->
+<!--    <div class="auth_input_form">-->
+<!--        E-mail:-->
+<!--        <input type="email" (keyup)="onInputEmail($event)">-->
+<!--    </div>-->
+
+<!--    <div class="auth_input_form">-->
+<!--        Pass:-->
+<!--        <input type="text" (keyup)="onInputPassword($event)">-->
+<!--    </div>-->
+
+<!--    <div class="auth_pannel">-->
+<!--        <button [ngClass]="{'button_enabled': emailValidate && passwordValidate}"-->
+<!--                class="button_disabled"-->
+<!--                (click)="loginByVal()" id="submitInputData">Login by entering values</button>-->
+<!--        or-->
+<!--        <button (click)="loginAuto()">Login by auto values</button>-->
+<!--    </div>-->
+<!--</div>-->
+
+<ng-template #logoutBlock>
+    <div class="position_fields">
+        <div>
+            Logged In as:
+        </div>
+
+        <span>
+            {{resultAuth.user.name}}
+        </span>
+    </div>
+    <div class="position_buttons">
+        <div class="auth_pannel">
+            <button (click)="logOut()">Log Out</button>
+            <button (click)="authDataScenarioRef()">Refresh</button>
+        </div>
+    </div>
+</ng-template>
+
+
