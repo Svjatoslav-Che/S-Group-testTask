@@ -1,30 +1,210 @@
-<div>Bash</div>
-
-<div *ngIf="formsData">
-
-
-    <div *ngFor="let form of formsData.data" class="form_container" >
-
-        <div class="form_data">Form ID: <span>{{form.id}}</span></div>
-        <div *ngFor="let field of form.form_field_values" class="form_field_rules">
-            <div class="form_field"> {{field.value}} </div>
-        </div>
-
-        <div class="form_data">
-            Created: <span>{{form.created_at | date:'dd.MM.yyyy'}}</span>
-            at: <span>{{form.created_at | date:'hh:mm'}}</span>
-        </div>
-        <div class="form_data">
-            Updated: <span>{{form.updated_at | date:'dd.MM.yyyy'}}</span>
-            at: <span>{{form.updated_at | date:'hh:mm'}}</span>
-        </div>
-        <div class="form_data">
-            User ID: <span>{{form.user_id}}</span>
-        </div>
-<!--        <button>Edit form</button>-->
-<!--        <button>Delete form</button>-->
+<div [ngClass]="['control_box']" *ngIf="formsData && openFormChange === undefined">
+    <div [ngClass]="['row', 'rules', 'step']">
+        <button
+            (click)="createNewForm()"
+            [ngClass]="['apply']">
+            Create new form
+        </button>
+    </div>
+    <div [ngClass]="['row', 'rules', 'step']">
+        <text [ngStyle]="{'margin-top':'9px'}">
+            Search by value:
+        </text>
+        <input type="text" value="{{currentSearchValue}}" (keyup)="onInputSearch($event)">
+        <button
+            [disabled]="searchButton === false"
+            (click)="submitSearch()">
+            Search
+        </button>
+        <button
+        [disabled]="!searchOn"
+        (click)="disableSearch()"
+        [ngClass]="['cancel']">
+            Disable Search
+        </button>
     </div>
 
+    <div [ngClass]="['row', 'rules', 'step']">
+        <text [ngStyle]="{'margin-top':'9px'}">
+            Sort elements by date of creation:
+        </text>
+        <br>
+        <button
+            [disabled]="sortParam === 'up'"
+            (click)="sortTimeUp(formsTransform)">
+            Sort Up
+        </button>
+        <button
+            [disabled]="sortParam === 'down'"
+            (click)="sortTimeDown(formsTransform)">
+            Sort Down
+        </button>
+        <button
+            [disabled]="sortParam === undefined"
+            (click)="sortDisable()"
+            [ngClass]="['cancel']">
+            Disable Sorting
+        </button>
+    </div>
 
+        <div [ngClass]="['row', 'rules', 'step']">
+            <text [ngStyle]="{'margin-top':'9px'}">
+                Elements per page:
+            </text>
+            <input type="number" value="{{currentPaginationNumber}}" (keyup)="onInputPagination($event)">
+            <button
+                [disabled]="submitPaginationButton === false"
+                (click)="submitPagination()">
+                Submit
+            </button>
+        </div>
+
+    <div [ngClass]="['row', 'rules']">
+        <button
+            [disabled]="currentPage === 1"
+            (click)="goPrevPage()">
+            << Prev Page
+        </button>
+        <text [ngStyle]="{'margin-top':'9px'}">
+            Page: <span>{{currentPage}}</span> of: {{pagesAtAll}}
+        </text>
+        <button
+            [disabled]="currentPage === pagesAtAll"
+            (click)="goNextPage()">
+            Next Page >>
+        </button>
+    </div>
+</div>
+
+<div *ngIf="formsData && openFormChange === undefined">
+    <div
+        *ngFor="let form of formsDisplay"
+        [ngClass]="['container', 'rules']">
+            <div [ngClass]="['space']">
+                <div [ngStyle]="{'margin-left':'13px'}">
+                    <smalltext>
+                        Form ID: <span>{{form.id}}</span>
+                    </smalltext>
+                </div>
+
+                <div [ngStyle]="{'margin-right':'13px'}">
+                    <smalltext>
+                        Created: <span>{{form.created_at | date:'dd.MM.yyyy'}}</span>
+                        at: <span>{{form.created_at | date:'hh:mm'}}</span>
+                    </smalltext>
+                    <smalltext>
+                        Updated: <span>{{form.updated_at | date:'dd.MM.yyyy'}}</span>
+                        at: <span>{{form.updated_at | date:'hh:mm'}}</span>
+                    </smalltext>
+                    <smalltext [ngStyle]="{'margin-right':'0px'}">
+                        User ID: <span>{{form.user_id}}</span>
+                    </smalltext>
+                </div>
+            </div>
+
+            <div [ngClass]="['step']">
+                <div *ngFor="let field of form.form_field_values">
+                    <fieldscontainer>
+                        <field [ngClass]="['move']"> {{field.value}} </field>
+                        <button
+                                [ngStyle]="{'margin-right': '0px'}"
+                                [disabled]="editCurrentFormLine"
+                                (click)="editCurrentLine(form.id, field.form_field_id, field.value)">
+                            Edit
+                        </button>
+                    </fieldscontainer>
+                    <div *ngIf="editCurrentFormLine &&
+                        form.id === editFormID &&
+                        field.form_field_id === editData.form_field_values[0].form_field_id">
+                        <input
+                            value={{this.editData.form_field_values[0].value}}
+                            (keyup)="onInputFOrmLine($event)">
+                        <button
+                            (click)="editFormLineAction()"
+                            [ngClass]="['apply']">
+                            Submit
+                        </button>
+                        <button
+                        (click)="editCurrentFormLine = false"
+                        [ngClass]="['cancel']">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        <button
+            (click)="deleteForm(form.id)"
+            [ngClass]="['warning']">
+            Delete form
+        </button>
+    </div>
+</div>
+
+<div
+    *ngIf="openFormChange === 'create'"
+    [ngClass]="['container', 'rules']">
+    <div [ngClass]="['step']">
+        <div [ngClass]="['step']">
+            <smalltext>
+                <span>Create New Form</span>
+            </smalltext>
+        </div>
+        <div [ngClass]="['step']">
+            <input type="text" placeholder="Enter any string value"
+                   id="input1"
+                   [ngStyle]="{'margin-right': '10px'}">
+            <text>
+                : first field
+            </text>
+        </div>
+        <div [ngClass]="['step']">
+            <input type="text" placeholder="Enter any string value"
+                   id="input2"
+                   [ngStyle]="{'margin-right': '10px'}">
+            <text>
+                : second field:
+            </text>
+        </div>
+        <div [ngClass]="['step']">
+            <input type="text" placeholder="Enter any string value"
+                   id="input3"
+                   [ngStyle]="{'margin-right': '10px'}">
+            <text>
+                : third field
+            </text>
+        </div>
+        <div [ngClass]="['step']">
+            <input type="date" placeholder="Enter date only"
+                   id="input4"
+                   [ngStyle]="{'margin-right': '10px'}">
+            <input type="time" placeholder="Enter date only"
+                   id="inputT"
+                   [ngStyle]="{'margin-right': '10px'}">
+            <text>
+                : fourth field
+            </text>
+        </div>
+        <div>
+            <input type="number" placeholder="Enter numbers only"
+                   id="input5"
+                   [ngStyle]="{'margin-right': '10px'}">
+            <text>
+                : fifth field:
+            </text>
+        </div>
+    </div>
+
+    <button
+    [ngClass]="['apply']"
+    (click)="createNewFormRequest()">
+        Create
+    </button>
+    <button
+    (click)="openFormChange = undefined"
+    [ngClass]="['cancel']">
+        Cancel
+    </button>
 </div>
 

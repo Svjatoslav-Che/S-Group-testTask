@@ -1,90 +1,3 @@
-
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
-@import '~@angular/material/theming';
-// Plus imports for other components in your app.
-
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-@include mat-core();
-
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$TaskAstaMobi-primary: mat-palette($mat-indigo);
-$TaskAstaMobi-accent: mat-palette($mat-pink, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
-$TaskAstaMobi-warn: mat-palette($mat-red);
-
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
-$TaskAstaMobi-theme: mat-light-theme((
-  color: (
-    primary: $TaskAstaMobi-primary,
-    accent: $TaskAstaMobi-accent,
-    warn: $TaskAstaMobi-warn,
-  )
-));
-
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include angular-material-theme($TaskAstaMobi-theme);
-
-
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
-@import '~@angular/material/theming';
-// Plus imports for other components in your app.
-
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-@include mat-core();
-
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$TaskAstaMobi-primary: mat-palette($mat-indigo);
-$TaskAstaMobi-accent: mat-palette($mat-pink, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
-$TaskAstaMobi-warn: mat-palette($mat-red);
-
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
-$TaskAstaMobi-theme: mat-light-theme((
-  color: (
-    primary: $TaskAstaMobi-primary,
-    accent: $TaskAstaMobi-accent,
-    warn: $TaskAstaMobi-warn,
-  )
-));
-
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include angular-material-theme($TaskAstaMobi-theme);
-
-@import '~@angular/material/theming';
-@include mat-core();
-
-$TaskAstaMobi-primary: mat-palette($mat-indigo);
-$TaskAstaMobi-accent: mat-palette($mat-pink, A200, A100, A400);
-$TaskAstaMobi-warn: mat-palette($mat-red);
-
-$TaskAstaMobi-theme: mat-light-theme((
-  color: (
-    primary: $TaskAstaMobi-primary,
-    accent: $TaskAstaMobi-accent,
-    warn: $TaskAstaMobi-warn,
-  )
-));
-
-@include angular-material-theme($TaskAstaMobi-theme);
-
 //GLOBAL
 
 @import '~roboto-fontface/css/roboto/roboto-fontface.css';
@@ -93,58 +6,144 @@ $TaskAstaMobi-theme: mat-light-theme((
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-//COLOR SETTINGS
-
-.set_green {--main-bg-color: green;}
-.set_blue {--main-bg-color: blue;}
-.set_gray {--main-bg-color: gray;}
-
 //BUTTONS
 
-.custom_buttons_flexible_passive {
-  flex-basis: 120px;
-  font-size: 11px;
-  font-weight: 350;
-  color: #363636;
-  padding: 5px;
-  border-radius: 5px;
-  background-color: #dfdfdf;
-  display: flex;
-  justify-content: center;
-  flex-shrink: 1;
-  flex-grow: 1;
-  transition: all 0.3s linear;
-  margin: 10px;
-  user-select: none;
-
-  &:hover {
-    background-color: var(--main-bg-color);
-    cursor: pointer;
-    color: lightgray;
-    font-weight: 350;
-    font-weight: bold;
-  }
+.auth_box {
+  width: 280px;
+  background: #f0ffee;
+  border-radius: 15px;
+  padding: 16px;
+  margin: 20px 20px 20px auto;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 }
 
-.custom_buttons_flexible_active {
-  flex-basis: 120px;
-  font-size: 11px;
-  font-weight: 350;
-  font-weight: bold;
-  color: lightgray;
-  padding: 5px;
-  border-radius: 5px;
-  background-color: var(--main-bg-color);
-  display: flex;
-  justify-content: center;
-  flex-shrink: 1;
-  flex-grow: 1;
-  transition: all 0.3s linear;
+.control_box {
+  width: auto;
+  padding: 16px;
   margin: 10px;
-  user-select: none;
+  border-radius: 15px;
+  background-color: #efefef;
+  margin: 0 20px 20px 20px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
 
-  &:hover {
-    background-color: var(--main-bg-color);
-    cursor: pointer;
+.container {
+  width: auto;
+  padding: 16px;
+  border-radius: 15px;
+  background-color: #efefef;
+  margin: 0 20px 20px 20px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.row {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.row_r {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.space {
+  display: flex;
+  justify-content: space-between;
+}
+
+.step {
+  margin-bottom: 15px;
+}
+
+.move {
+  margin-right: 10px;
+}
+
+.rules {
+  text {
+    margin-right: 10px;
+  }
+
+  smalltext {
+    margin-right: 10px;
+    font-size: 10px;
+    opacity: 0.4;
+  }
+
+  input {
+    height: 33px;
+    //height: 35px;
+    margin-right: 14px;
+    padding-left: 14px;
+    border: none;
+    border-radius: 10px;
+    appearance: none;
+    box-shadow: inset 0 5px 10px rgba(0,0,0,0.2);
+  }
+
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    margin: 0;
+  }
+
+  button {
+    height: 35px;
+    margin-right: 10px;
+    padding-left: 14px;
+    padding-right: 14px;
+    border-radius: 10px;
+    border: none;
+    background: #ffffff;
+    user-select: none;
+    box-shadow: 0 5px 5px rgba(0,0,0,0.2);
+    &:hover {
+      user-select: none;
+      cursor: pointer;
+      background: #eaeaea;
+    }
+  }
+
+  span {
+    color: green;
+    user-select: none;
+  }
+
+  fieldscontainer {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  field {
+    height: 27px;
+    flex-grow: 1;
+    border: none;
+    background: #dcdcdc;
+    vertical-align: text-bottom;
+    padding-left: 14px;
+    padding-top: 8px;
+    border-radius: 10px;
+    box-shadow: 0 5px 5px rgba(0,0,0,0.2);
+  }
+
+  .warning {
+    &:hover {
+      background: #ffecec;
+    }
+  }
+
+  .cancel {
+    &:hover {
+      background: #fff9e0;
+    }
+  }
+
+  .apply {
+    &:hover {
+      background: #f0ffdc;
+    }
   }
 }

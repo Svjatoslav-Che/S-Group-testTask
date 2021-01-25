@@ -22,6 +22,7 @@ export class AuthComponent implements OnInit {
   ) { }
 
   private timerId: any;
+  private timerRun: boolean = false;
   public email: string;
   public password: string;
   public emailValidate: boolean = false;
@@ -35,11 +36,13 @@ export class AuthComponent implements OnInit {
   }
 
   onInputEmail(event: any) {
+    // @ts-ignore
     this.email = event.target.value;
     this.emailValidate = this.validateEmail(event.target.value);
   }
 
   onInputPassword(event: any) {
+    // @ts-ignore
     this.password = event.target.value;
     if (event.target.value.length >= 3) {
       this.passwordValidate = true;
@@ -49,20 +52,9 @@ export class AuthComponent implements OnInit {
     }
   }
 
-  validateEmail(email: string)
-  {
+  validateEmail(email: string): boolean {
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
-  }
-
-  authDataScenarioRef() {
-    this.authService.refreshTokenServer(this.tokenService.getToken()).subscribe((result: any) => {
-          this.resultAuth = result;
-          this.tokenService.putAccessToken(result.access_token);
-          this.globalService.loggedIn = true;
-          this.startRefreshToken(result.expires_in);
-        }, (error => alert('Auth Refresh error, code: ' + error.status))
-    );
   }
 
   authDataScenarioIn(emailIn: string, passwordIn: string) {
@@ -70,7 +62,7 @@ export class AuthComponent implements OnInit {
           this.resultAuth = result;
           this.tokenService.putAccessToken(result.access_token);
           this.globalService.loggedIn = true;
-          this.startRefreshToken(result.expires_in);
+          this.startRefreshToken(result.refresh_in);
     }, (error => alert('Auth Log In error, code: ' + error.status))
     );
   }
@@ -78,8 +70,21 @@ export class AuthComponent implements OnInit {
   authDataScenarioOut() {
     this.authService.refreshTokenServer(this.tokenService.getToken()).subscribe((result: any) => {
           clearTimeout(this.timerId);
-          this.startRefreshToken(result.expires_in);
+          this.globalService.loggedIn = false;
         }, (error => alert('Auth Log Out error, code: ' + error.status))
+    );
+  }
+
+  authDataScenarioRef() {
+    this.authService.refreshTokenServer(this.tokenService.getToken()).subscribe((result: any) => {
+          this.resultAuth = result;
+          this.tokenService.putAccessToken(result.access_token);
+          this.globalService.loggedIn = true;
+          if (this.timerRun === false) {
+            this.startRefreshToken(result.expires_in);
+          }
+        },
+        (error => alert('Auth Refresh error, code: ' + error.status)),
     );
   }
 
@@ -95,11 +100,12 @@ export class AuthComponent implements OnInit {
     this.globalService.loggedIn = false;
     this.authDataScenarioOut();
     this.tokenService.destroyToken();
+    this.timerRun = false;
   }
 
   startRefreshToken(timer: number) {
-    // console.log(timer);
     this.timerId = setInterval(() => this.authDataScenarioRef(), timer);
+    this.timerRun = true;
   }
 
 }

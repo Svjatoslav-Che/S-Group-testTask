@@ -26,6 +26,7 @@ export class ApiService {
 
   private setRefreshHeaders(token: string): HttpHeaders {
     const headersFields: any = {
+      'Content-Type': 'application/json',
       Accept: 'application/json',
       Authorization: `Bearer ${token}`,
     };
@@ -37,11 +38,6 @@ export class ApiService {
     return this.http.get<T>(`${url}${path}`, { headers: this.setRefreshHeaders(token)});
   }
 
-  // public getForms<T>(path: string, key: string): Observable<T> {
-  //   const url = this.isServer ? environment.ssr_api_url : environment.api_url;
-  //   return this.http.get<T>(`${url}${path}`, JSON.stringify(key));
-  // }
-
   public put<T>(path: string, body: Object = {}): Observable<T> {
     const url = this.isServer ? environment.ssr_api_url : environment.api_url;
     return this.http.put<T>(`${url}${path}`, JSON.stringify(body), { headers: this.setHeaders() });
@@ -52,9 +48,9 @@ export class ApiService {
     return this.http.post<T>(`${url}${path}`, JSON.stringify(body), { headers: this.setHeaders() });
   }
 
-  public delete(path: string): Observable<any> {
+  public delete(path: string, token: string): Observable<any> {
     const url = this.isServer ? environment.ssr_api_url : environment.api_url;
-    return this.http.delete(`${url}${path}`, { headers: this.setHeaders() });
+    return this.http.delete(`${url}${path}`, {headers: this.setRefreshHeaders(token)});
   }
 
   public dataRequest<T>(path: string, body: Object = {}): Observable<T> {
@@ -65,5 +61,15 @@ export class ApiService {
   public dataRefresh<T>(path: string, token: string): Observable<T> {
     const url = this.isServer ? environment.ssr_api_url : environment.api_url;
     return this.http.post<T>(`${url}${path}`, {},{headers: this.setRefreshHeaders(token)});
+  }
+
+  public update<T>(path: string, token: string, body: Object = {}): Observable<T> {
+    const url = this.isServer ? environment.ssr_api_url : environment.api_url;
+    return this.http.post<T>(`${url}${path}`, JSON.stringify(body), { headers: this.setRefreshHeaders(token)});
+  }
+
+  public create<T>(path: string, token: string, body: Object = {}): Observable<T> {
+    const url = this.isServer ? environment.ssr_api_url : environment.api_url;
+    return this.http.post<T>(`${url}${path}`, JSON.stringify(body), { headers: this.setRefreshHeaders(token)});
   }
 }
