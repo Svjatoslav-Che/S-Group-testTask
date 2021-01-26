@@ -28,6 +28,7 @@
     "echarts": "^4.9.0",
     "echarts-gl": "^1.1.1",
     "font-awesome": "^4.7.0",
+    "http-server": "^0.12.3",
     "jw-angular-pagination": "^1.2.0",
     "ng-click-outside": "^7.0.0",
     "ng-lightning": "^7.0.0",
